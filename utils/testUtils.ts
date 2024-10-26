@@ -15,12 +15,8 @@ export async function setupTest(
 
   const clientSocket = Client(`ws://localhost:${port}`);
 
-  // Wait for the client to connect
   await new Promise<void>((resolve) => {
-    clientSocket.on("connect", () => {
-      console.log("Client connected to server");
-      resolve();
-    });
+    clientSocket.on("connect", resolve);
   });
 
   return {
