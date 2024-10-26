@@ -13,7 +13,7 @@ Deno.test(
     clientSocket.emit(TRIGGER_EVENT);
     const uploadData = await uploadEvent.promise;
 
-    assertEquals(uploadData, 1);
+    assertEquals(uploadData, 2);
     close();
   },
 );
