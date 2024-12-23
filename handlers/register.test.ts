@@ -1,22 +1,31 @@
 import { assertEquals } from "@std/assert";
-import { TRIGGER_EVENT, withRegister } from "@/handlers/register.ts";
+import { withRegister } from "@/handlers/register.ts";
 import { setupTest } from "@/utils/testUtils.ts";
-import { createEventPayload, UPLOAD } from "@/events.ts";
+import { createEventPayload, REGISTER, TRANSFER } from "@/events.ts";
+import { Buffer } from "node:buffer";
 
 Deno.test(
-  `withRegister handler responds correctly to ${TRIGGER_EVENT} event`,
+  `withRegister handler responds correctly to ${REGISTER} event`,
   async () => {
-    const { clientSocket, close } = await setupTest([withRegister]);
+    const data = new Uint8Array([1, 2, 3]);
+    const id = 'hehe';
+
+    const { clientSocket, close } = await setupTest(withRegister, {
+      readFile: () => Promise.resolve(data)
+    });
 
     const uploadEvent = Promise.withResolvers();
-    clientSocket.on(UPLOAD, uploadEvent.resolve);
+    clientSocket.on(TRANSFER, uploadEvent.resolve);
+
     clientSocket.emit(
-      TRIGGER_EVENT,
-      createEventPayload(TRIGGER_EVENT, { id: "hehe" })
+      REGISTER,
+      createEventPayload(REGISTER, { id})
     );
     const uploadData = await uploadEvent.promise;
 
-    assertEquals(uploadData, 1);
+    assertEquals(uploadData, createEventPayload(TRANSFER, {
+      id, data: Buffer.from(data)
+    }));
     close();
   }
 );
