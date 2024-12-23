@@ -1,0 +1,11 @@
+req-client initializes with ID.
+Requests from service the list of res-clients with this ID
+
+Picks one of the clients: # (how will avoid supra-saturating one client)?
+  - req-client registers with an ID.
+  - the res-client looks up the id in id-to-path and then sends contents of path.
+  - If failed:
+      check another res-client
+    else:
+      close connection
+      start sending heartbeats to service about id availability
