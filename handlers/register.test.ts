@@ -11,7 +11,7 @@ Deno.test(
     const id = 'hehe';
 
     const { clientSocket, close } = await setupTest(withRegister, {
-      readFile: () => Promise.resolve(data)
+      readFile: () => Promise.resolve(Buffer.from(data))
     });
 
     const uploadEvent = Promise.withResolvers();
