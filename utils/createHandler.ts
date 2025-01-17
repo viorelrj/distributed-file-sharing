@@ -1,5 +1,8 @@
-import { Socket } from "socket.io";
+import { Socket as ServerSocket } from "socket.io";
+import { Socket as ClientSocket } from "socket.io-client";
 import { EventKey, EventRegistry } from "@/events.ts";
+
+type Socket = ClientSocket | ServerSocket;
 
 type SocketHandlerDeclaration<T extends EventKey, D> = (
   socket: Socket,

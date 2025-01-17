@@ -19,7 +19,7 @@ Deno.test(
 
     clientSocket.emit(
       REGISTER,
-      createEventPayload(REGISTER, { id})
+      createEventPayload(REGISTER, { id })
     );
     const uploadData = await uploadEvent.promise;
 
