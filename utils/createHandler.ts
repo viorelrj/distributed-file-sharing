@@ -10,22 +10,25 @@ type SocketHandlerDeclaration<T extends EventKey, D> = (
   dependencies: D,
 ) => void;
 
+export type SocketHandler<D = unknown> = (
+  socket: Socket,
+  dependenceis: D,
+) => void;
 
-export type SocketHandler<D = unknown> = (socket: Socket, dependenceis: D) => void;
+const createHandler = <T extends EventKey, D>(
+  event: T,
+  handler: SocketHandlerDeclaration<T, D>,
+) => {
+  const fn = (socket: Socket, dependencies: D) => {
+    socket.on(
+      event as string,
+      (payload: EventRegistry[T]) => {
+        handler(socket, payload, dependencies);
+      },
+    );
+  };
 
-const createHandler =
-  <T extends EventKey, D>(event: T, handler: SocketHandlerDeclaration<T, D>) => {
-    const fn = (socket: Socket, dependencies: D) => {
-      socket.on(
-        event as string,
-        (payload: EventRegistry[T], ...args: unknown[]) => {
-          handler(socket, payload, dependencies);
-        }
-      );
-    };
-
-    return fn as SocketHandler<D>;
-
-  }
+  return fn as SocketHandler<D>;
+};
 
 export { createHandler };

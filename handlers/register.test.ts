@@ -8,10 +8,11 @@ Deno.test(
   `withRegister handler responds correctly to ${REGISTER} event`,
   async () => {
     const data = new Uint8Array([1, 2, 3]);
-    const id = 'hehe';
+    const id = "hehe";
 
     const { clientSocket, close } = await setupTest(withRegister, {
-      readFile: () => Promise.resolve(Buffer.from(data))
+      readFile: () => Promise.resolve(Buffer.from(data)),
+      basePath: "",
     });
 
     const uploadEvent = Promise.withResolvers();
@@ -19,13 +20,17 @@ Deno.test(
 
     clientSocket.emit(
       REGISTER,
-      createEventPayload(REGISTER, { id })
+      createEventPayload(REGISTER, { id }),
     );
     const uploadData = await uploadEvent.promise;
 
-    assertEquals(uploadData, createEventPayload(TRANSFER, {
-      id, data: Buffer.from(data)
-    }));
+    assertEquals(
+      uploadData,
+      createEventPayload(TRANSFER, {
+        id,
+        data: Buffer.from(data),
+      }),
+    );
     close();
-  }
+  },
 );

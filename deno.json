@@ -1,6 +1,8 @@
 {
   "tasks": {
-    "dev": "deno run --watch --allow-net --allow-env --allow-read main.ts",
+    "dev": "deno run --watch --allow-net --allow-env --allow-read --allow-write main.ts",
+    "server": "deno run dev --basePath ./testFiles/from/",
+    "client": "deno run dev --basePath ./testFiles/to/ --port 3001 --source localhost:3000",
     "test": "deno test --allow-net --allow-env"
   },
   "imports": {

@@ -10,7 +10,7 @@ export const setupTest = async <T extends EventKey, D>(
 ): Promise<{ clientSocket: ClientSocket; close: () => void }> => {
   const io = new Server(port);
 
-  io.on("connection", socket => {
+  io.on("connection", (socket) => {
     handler(socket, dependencies);
   });
 
@@ -27,4 +27,4 @@ export const setupTest = async <T extends EventKey, D>(
       io.close();
     },
   };
-}
+};
