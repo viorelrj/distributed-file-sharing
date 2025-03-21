@@ -2,7 +2,7 @@
   "tasks": {
     "dev": "deno run --watch --allow-net --allow-env --allow-read --allow-write main.ts",
     "server": "deno run dev --basePath ./testFiles/from/",
-    "client": "deno run dev --basePath ./testFiles/to/ --port 3001 --source localhost:3000",
+    "client": "deno run dev --basePath ./testFiles/to/ --port 3001 --source localhost:3000 --filename hehe",
     "test": "deno test --allow-net --allow-env",
     "hook": "deno run --allow-read --allow-run --allow-write https://deno.land/x/deno_hooks@0.1.1/mod.ts"
   },
