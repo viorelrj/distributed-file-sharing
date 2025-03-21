@@ -1,3 +1,16 @@
+next step:
+- Implement a file format:
+    info:
+      pathname - path to the file location
+      checksum - to validate file readiness/integrity (if failed - needs to redownload it from peers)
+    id: not a property. The torrents are identified by the sha-1 hash of the info
+    - will have a folder that contains the torrent files
+    - at startup, lookup in the folder to know available ids
+    - accept connections for the hashes
+    - The client that downloads - initialize with the torrent file, and a desired output folder
+
+------------
+Maybe how it works:
 req-client initializes with ID.
 Requests from service the list of res-clients with this ID
 
